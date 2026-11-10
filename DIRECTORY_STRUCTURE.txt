@@ -1,0 +1,279 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   PROJECT DIRECTORY STRUCTURE                             ║
+║            Multi-Agent Agentic AI Loan Approval System                    ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+LoanApplication/
+│
+├── 📚 DOCUMENTATION & GUIDES (5 files)
+│   ├── README.md                      - Full system documentation
+│   ├── SETUP_GUIDE.md                 - Setup & troubleshooting guide
+│   ├── IMPLEMENTATION_SUMMARY.md      - Technical implementation details
+│   ├── QUICK_START.txt                - Quick reference guide
+│   ├── PROJECT_COMPLETION_REPORT.md   - Project summary & status
+│   └── DIRECTORY_STRUCTURE.txt        - This file
+│
+├── ⚙️ CONFIGURATION FILES (3 files)
+│   ├── config/
+│   │   ├── settings.py                - Configuration constants
+│   │   └── __init__.py
+│   ├── .env.example                   - Environment template
+│   └── requirements.txt               - Python dependencies
+│
+├── 🤖 AGENT LAYER (5 files)
+│   └── agents/
+│       ├── __init__.py
+│       ├── applicant_agent.py         - Applicant Profile Agent
+│       │   ├── analyze_applicant_profile()  - Main analysis function
+│       │   └── format_applicant_analysis()  - Output formatting
+│       ├── risk_agent.py              - Financial Risk Analysis Agent
+│       │   ├── analyze_financial_risk()     - Risk calculation
+│       │   └── format_risk_analysis()       - Output formatting
+│       ├── decision_agent.py          - Loan Decision Agent
+│       │   ├── synthesize_decision()   - Decision making
+│       │   └── format_decision_synthesis()  - Output formatting
+│       └── compliance_agent.py        - Compliance & Action Agent
+│           ├── send_notification_and_log() - Notification handling
+│           └── format_compliance_action()  - Output formatting
+│
+├── 🔌 MCP SERVERS - COMMUNICATION LAYER (5 files)
+│   └── mcp_servers/
+│       ├── __init__.py
+│       ├── applicant_db.py            - ApplicantDB MCP Server (Port: 8001)
+│       │   ├── POST /query            - Query applicant profile
+│       │   ├── GET /health            - Health check
+│       │   └── Functions:
+│       │       ├── analyze_income_stability()
+│       │       ├── analyze_employment_risk()
+│       │       └── get_credit_history()
+│       ├── risk_rules_db.py           - RiskRulesDB MCP Server (Port: 8002)
+│       │   ├── POST /analyze          - Analyze financial risk
+│       │   ├── GET /health            - Health check
+│       │   └── Functions:
+│       │       ├── calculate_dti_ratio()
+│       │       ├── assess_credit_risk()
+│       │       ├── assess_loan_amount_risk()
+│       │       └── detect_anomalies()
+│       ├── decision_synthesis.py      - DecisionSynthesis MCP (Port: 8003)
+│       │   ├── POST /synthesize       - Synthesize decision
+│       │   ├── GET /health            - Health check
+│       │   └── Functions:
+│       │       └── synthesize_decision()
+│       └── notification_system.py     - NotificationSystem MCP (Port: 8004)
+│           ├── POST /notify           - Send notification
+│           ├── GET /case/{case_id}    - Get case details
+│           ├── GET /health            - Health check
+│           └── Functions:
+│               └── generate_case_id()
+│
+├── 🎯 ORCHESTRATION LAYER (2 files)
+│   └── orchestrator/
+│       ├── __init__.py
+│       └── langgraph_engine.py        - LangGraph Orchestration Engine
+│           ├── WorkflowState          - TypedDict for state management
+│           ├── node_analyze_applicant() - Agent Node 1
+│           ├── node_analyze_risk()     - Agent Node 2
+│           ├── node_synthesize_decision() - Agent Node 3
+│           ├── node_compliance_and_notification() - Agent Node 4
+│           └── execute_workflow()      - Main orchestration function
+│
+├── 🔌 MICROSERVICE LAYER (2 files)
+│   └── services/
+│       ├── __init__.py
+│       └── microservice.py            - FastAPI Microservice (Port: 8000)
+│           ├── POST /api/apply        - Submit loan application
+│           ├── GET /api/status/{id}   - Check application status
+│           ├── GET /api/applications  - List all applications
+│           ├── GET /health            - Health check
+│           └── GET /docs              - API documentation
+│
+├── 🎨 PRESENTATION LAYER (1 file)
+│   └── ui/
+│       └── streamlit_app.py           - Streamlit Chatbot UI (Port: 8501)
+│           ├── Tab 1: New Application
+│           │   ├── Applicant Information Form
+│           │   ├── Loan Information Form
+│           │   ├── Submit Button
+│           │   └── Results Display
+│           ├── Tab 2: Status Check
+│           │   ├── Applicant ID Input
+│           │   └── Status Display
+│           └── Tab 3: All Applications
+│               ├── Application Count
+│               └── Application List
+│
+├── 📊 DATA MODELS (2 files)
+│   └── models/
+│       ├── __init__.py
+│       └── loan_application.py        - Pydantic Models
+│           ├── LoanApplicationRequest
+│           ├── LoanApplicationResponse
+│           ├── ApplicantProfileOutput
+│           ├── FinancialRiskOutput
+│           ├── LoanDecisionOutput
+│           ├── ComplianceActionOutput
+│           ├── EmploymentType (Enum)
+│           └── DecisionStatus (Enum)
+│
+├── 🛠️ UTILITY LAYER (3 files)
+│   └── utils/
+│       ├── __init__.py
+│       ├── llm.py                     - LLM Client Wrapper
+│       │   ├── get_llm_client()       - Initialize Anthropic client
+│       │   └── get_model_name()       - Get configured model
+│       └── logger.py                  - Logging Configuration
+│           └── setup_logger()         - Configure structured logging
+│
+├── 🧪 TEST INFRASTRUCTURE (1 file)
+│   └── tests/
+│       └── __init__.py
+│
+└── 🚀 DEPLOYMENT (1 file)
+    └── start_all_services.sh          - Automated Service Launcher
+        ├── Start MCP Server 1 (ApplicantDB)
+        ├── Start MCP Server 2 (RiskRulesDB)
+        ├── Start MCP Server 3 (DecisionSynthesis)
+        ├── Start MCP Server 4 (NotificationSystem)
+        ├── Start FastAPI Microservice
+        ├── Start Streamlit UI
+        └── Cleanup on exit
+
+═══════════════════════════════════════════════════════════════════════════
+
+EXECUTION FLOW:
+
+User Input (Browser)
+        ↓
+    Streamlit UI (8501)
+        ↓
+    Form Submission
+        ↓
+    FastAPI Microservice (8000)
+        ↓
+    Request Validation (Pydantic)
+        ↓
+    LangGraph Orchestrator
+        ↓
+    ┌───────────┬────────────┬──────────────┬────────────┐
+    ↓           ↓            ↓              ↓            ↓
+Agent 1      Agent 2      Agent 3       Agent 4
+Applicant    Financial    Decision     Compliance
+Profile      Risk         Synthesis    & Action
+    ↓           ↓            ↓              ↓
+    └───────────┬────────────┬──────────────┴────────────┘
+                ↓            ↓
+        Query MCP Servers (8001-8004)
+                ↓            ↓
+        Return Analysis Data
+                ↓            ↓
+        Synthesize Results
+                ↓
+        Decision Output
+        (JSON with Analysis)
+                ↓
+        Display in Streamlit UI
+                ↓
+        User Views Result
+
+═══════════════════════════════════════════════════════════════════════════
+
+SERVICE PORTS & ENDPOINTS:
+
+PORT  SERVICE                    HEALTH CHECK
+────  ──────────────────────────  ─────────────────────────────
+8501  Streamlit UI               http://localhost:8501
+8000  FastAPI Microservice       http://localhost:8000/health
+8000  FastAPI Docs              http://localhost:8000/docs
+8001  ApplicantDB MCP            http://localhost:8001/health
+8002  RiskRulesDB MCP            http://localhost:8002/health
+8003  DecisionSynthesis MCP      http://localhost:8003/health
+8004  NotificationSystem MCP     http://localhost:8004/health
+
+═══════════════════════════════════════════════════════════════════════════
+
+KEY CONFIGURATION FILES:
+
+config/settings.py
+├── API Configuration
+│   ├── ANTHROPIC_API_KEY
+│   └── MODEL_NAME
+├── Service Configuration
+│   ├── FASTAPI_HOST & PORT
+│   └── STREAMLIT_PORT
+├── MCP Server URLs
+│   └── 4 MCP Server URLs
+└── Decision Rules
+    ├── APPROVED_THRESHOLD
+    ├── REVIEW_THRESHOLD
+    ├── CONFIDENCE_THRESHOLD
+    ├── Loan Limits
+    ├── DTI Ratio
+    └── Credit Score Bands
+
+═══════════════════════════════════════════════════════════════════════════
+
+MODELS & DATA STRUCTURES:
+
+Pydantic Models (models/loan_application.py):
+├── LoanApplicationRequest    - Input validation
+├── LoanApplicationResponse   - API response
+├── ApplicantProfileOutput    - Agent 1 output
+├── FinancialRiskOutput       - Agent 2 output
+├── LoanDecisionOutput        - Agent 3 output
+└── ComplianceActionOutput    - Agent 4 output
+
+Enums:
+├── EmploymentType
+│   ├── FULL_TIME
+│   ├── PART_TIME
+│   ├── SELF_EMPLOYED
+│   └── UNEMPLOYED
+└── DecisionStatus
+    ├── APPROVED
+    ├── REJECTED
+    └── REVIEW
+
+═══════════════════════════════════════════════════════════════════════════
+
+DEPENDENCIES (requirements.txt):
+
+anthropic==1.60.1              - Anthropic Claude API
+fastapi==0.115.6              - Web framework
+uvicorn==0.32.1               - ASGI server
+streamlit==1.41.1             - UI framework
+pydantic==2.10.4              - Data validation
+python-dotenv==1.0.1          - Environment loading
+httpx==0.28.0                 - Async HTTP client
+langgraph==0.2.51             - Orchestration
+langchain==0.3.12             - LLM framework
+langchain-anthropic==0.3.9    - Anthropic integration
+
+═══════════════════════════════════════════════════════════════════════════
+
+QUICK START COMMANDS:
+
+1. Setup:
+   cd /home/ubuntu/Desktop/LoanApplication
+   cp .env.example .env
+   # Edit .env with ANTHROPIC_API_KEY
+   pip install -r requirements.txt
+
+2. Deploy:
+   chmod +x start_all_services.sh
+   ./start_all_services.sh
+
+3. Access:
+   Open http://localhost:8501 in browser
+
+4. Stop:
+   Press Ctrl+C
+
+═══════════════════════════════════════════════════════════════════════════
+
+For detailed information, see:
+- README.md              - Full documentation
+- SETUP_GUIDE.md        - Setup instructions
+- QUICK_START.txt       - Quick reference
+- IMPLEMENTATION_SUMMARY.md - Technical details
+
+═══════════════════════════════════════════════════════════════════════════
